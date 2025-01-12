@@ -1,6 +1,6 @@
 import logging
 import argparse
-from gcodezaa.process import process_gcode
+from process import process_gcode
 
 
 def main():
@@ -23,6 +23,7 @@ def main():
         result = process_gcode(f.readlines(), args.models, plate_model)
     with open(args.output or args.input_gcode, "w", encoding="utf-8") as f:
         f.writelines(result)
+    print(f"Output written to {args.output or args.input_gcode}")
     logging.info("Success")
 
 

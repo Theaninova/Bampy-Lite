@@ -1,6 +1,18 @@
-from gcodezaa.slicer_syntax import SlicerSyntax, Slicer
-from gcodezaa.extrusion import Extrusion
+from slicer_syntax import SlicerSyntax, Slicer
+from extrusion import Extrusion
 import open3d
+import numpy as np
+from dataclasses import dataclass
+
+
+@dataclass
+class NonPlanarSurface:
+    boundary: open3d.t.geometry.LineSet
+    surface: open3d.t.geometry.LineSet
+    geometry: np.ndarray
+    min_z: float
+    max_z: float
+    withheld: list[Extrusion]
 
 
 class ProcessorContext:
@@ -17,10 +29,18 @@ class ProcessorContext:
     last_e: float = 0
     last_contoured_z: float | None = None
 
-    exclude_object: dict[str, open3d.t.geometry.RaycastingScene] = {}
-    active_object: open3d.t.geometry.RaycastingScene | None = None
+    exclude_object: dict[str, list[open3d.t.geometry.RaycastingScene]] = {}
+    active_object: list[open3d.t.geometry.RaycastingScene] | None = None
+
+    non_planar_surfaces: list[NonPlanarSurface] = []
+    pending_surfaces: list[NonPlanarSurface] = []
+
+    points: list[list[float]] = []
+    lines: list[list[int]] = []
+    colors: list[list[float]] = []
 
     extrusion: list[Extrusion] = []
+    last_travel: Extrusion | None = None
 
     layer = 0
     z: float = 0

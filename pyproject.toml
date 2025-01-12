@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "gcodezaa"
+name = "bampy-lite"
 version = "0.1.0"
 description = "GCode post-processing script for z anti-aliasing or simple non-planar top surfaces"
 authors = ["Thea Schöbl <dev@theaninova.de>"]
@@ -17,4 +17,3 @@ addict = "^2.4.0"
 pillow = "^11.0.0"
 pandas = "^2.2.3"
 tqdm = "^4.67.1"
-
